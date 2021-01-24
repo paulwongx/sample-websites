@@ -1,0 +1,114 @@
+*,
+:before,
+:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.l-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.01);
+    height: 100vh;
+}
+
+.slider {
+    background-color: rgba(0,0,0,0.02);
+    width: 80vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    height: 8rem;
+}
+
+.slider__container {
+    width: 80%;
+    height: 80%;
+    background-color: rgba(0,0,0,0.03);
+    display: flex;
+    align-items: center;
+}
+
+.slider__base {
+    background-color: #C0C8CF;
+    box-shadow: inset 0px 1px 3px rgba(0,0,0,0.3);
+    width: 100%;
+    height: 10px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.slider__left {
+    left: 0;
+    right: 50%;
+    top: 0;
+    bottom: 0;
+    background-color: #F4364C;
+    border-radius: 10px;
+    position: absolute;
+    box-shadow: inset 0 0 3px rgba(51,51,51,.45);
+}
+
+.slider__origin {
+    position: absolute;
+    height: 0;
+    width: 0;
+    left: 25%;
+}
+
+.slider__thumb {
+    background: white;
+    cursor: pointer;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    top: 5px;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    border: 0;
+    z-index: 10;
+    position: relative;
+}
+
+.slider__thumb:active {
+    background-color: #F5F5F5;
+    transform: scale(1.05);
+    top: -10px;
+}
+
+.slider__thumb:before,
+.slider__thumb:after {
+    content: '';
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    top: 9px;
+    background-color: transparent;
+    box-sizing: border-box;
+}
+
+.slider__thumb:before {
+    left: 6px;
+    border-right: 6px solid #C0C8CF;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}
+
+.slider__thumb:after {
+    right: 6px;
+    left: auto;
+    border-left: 6px solid #C0C8CF;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}
+
+output {
+    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    color: rgba(0,0,0,0.6);
+}

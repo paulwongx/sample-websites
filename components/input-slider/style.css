@@ -44,9 +44,9 @@
 	margin-right: 1.5rem;
 }
 
-.slider__left {
+.slider__fill {
 	left: 0;
-	right: 50%;
+	right: 60%;
 	top: 0;
 	bottom: 0;
 	background-color: #f4364c;
@@ -64,7 +64,7 @@
 
 .slider--transition {
     transition-duration: 0.3s;
-	transition-timing-function: ease-in-out;
+	transition-timing-function: ease-out;
 }
 
 .slider__thumb {

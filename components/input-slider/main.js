@@ -3,6 +3,7 @@ const enableSlider = (ids) => {
     const slider = document.getElementById(ids.sliderId);
     const origin = document.getElementById(ids.originId);
     const thumb = document.getElementById(ids.thumbId);
+    const fill = document.getElementById(ids.fillId);
     const sliderLeft = slider.getBoundingClientRect().left;
     const sliderWidth = slider.getBoundingClientRect().width;
 
@@ -15,6 +16,7 @@ const enableSlider = (ids) => {
         isDown = true;
         if (origin.classList.contains('slider--transition')) {
             origin.classList.remove('slider--transition');
+            fill.classList.remove('slider--transition');
         }
         xPos = e.clientX || e.touches[0].clientX;
         offsetOnThumb =  xPos - origin.getBoundingClientRect().left;
@@ -31,20 +33,25 @@ const enableSlider = (ids) => {
             xPos = e.clientX || e.touches[0].clientX;
             offsetX = ((xPos - sliderLeft - offsetOnThumb) / sliderWidth) * 100;
             offsetX = Math.max(Math.min(offsetX, 100),0);
+
             origin.style.left = offsetX + '%';
-            console.log('mouse move - offsetX:', offsetX);
+            fill.style.right = 100-offsetX + '%';
+
+            console.log('mousemove - offsetX:', offsetX);
         }
     }
 
     const handleSliderClick = (e) => {
         if (!origin.classList.contains('slider--transition')) {
             origin.classList.add('slider--transition');
+            fill.classList.add('slider--transition');
         }
         xPos = e.clientX || e.touches[0].clientX;
         offsetX = ((xPos - sliderLeft) / sliderWidth) * 100;
         offsetX = Math.max(Math.min(offsetX, 100),0);
 
         origin.style.left = offsetX + '%';
+        fill.style.right = 100-offsetX + '%';
     }
 
     thumb.addEventListener('mousedown', handleMouseDown, true);
@@ -65,7 +72,7 @@ const ids = {
     sliderId: 'slider-base',
     originId: 'slider-origin',
     thumbId: 'slider-thumb',
-    leftId: 'slider-left',
+    fillId: 'slider-fill',
 }
 
 enableSlider(ids);

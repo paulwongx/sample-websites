@@ -1,14 +1,19 @@
-/* ================== ENABLE SLIDER FUNCTIONALITY ================== */
-const enableSlider = (ids) => {
+/* ================== SLIDER  ================== */
+const useSlider = (ids, inputAttr) => {
     const slider = document.getElementById(ids.sliderId);
     const origin = document.getElementById(ids.originId);
     const thumb = document.getElementById(ids.thumbId);
     const fill = document.getElementById(ids.fillId);
+    const output = document.getElementById(ids.outputId);
     const sliderLeft = slider.getBoundingClientRect().left;
     const sliderWidth = slider.getBoundingClientRect().width;
+    const min = inputAttr.min;
+    const max = inputAttr.max;
+    const n = max - min;
 
     let offsetOnThumb = 0;
     let offsetX = 0;
+    let adjOffsetX = 0;
     let isDown = false;
     let xPos;
 
@@ -20,24 +25,18 @@ const enableSlider = (ids) => {
         }
         xPos = e.clientX || e.touches[0].clientX;
         offsetOnThumb =  xPos - origin.getBoundingClientRect().left;
-        console.log('mouse click down - originX:', offsetOnThumb);
+        // console.log('mouse click down - originX:', offsetOnThumb);
     }
 
     const handleMouseUp = () => {
         isDown = false;
+        offsetOnThumb = 0;
     }
 
     const handleMouseMove = (e) => {
         e.preventDefault();
         if (isDown) {
-            xPos = e.clientX || e.touches[0].clientX;
-            offsetX = ((xPos - sliderLeft - offsetOnThumb) / sliderWidth) * 100;
-            offsetX = Math.max(Math.min(offsetX, 100),0);
-
-            origin.style.left = offsetX + '%';
-            fill.style.right = 100-offsetX + '%';
-
-            console.log('mousemove - offsetX:', offsetX);
+            addStyles(e);
         }
     }
 
@@ -46,12 +45,28 @@ const enableSlider = (ids) => {
             origin.classList.add('slider--transition');
             fill.classList.add('slider--transition');
         }
+        addStyles(e);
+    }
+
+    const addStyles = (e) => {
         xPos = e.clientX || e.touches[0].clientX;
-        offsetX = ((xPos - sliderLeft) / sliderWidth) * 100;
+        offsetX = ((xPos - sliderLeft - offsetOnThumb) / sliderWidth) * 100;
         offsetX = Math.max(Math.min(offsetX, 100),0);
 
-        origin.style.left = offsetX + '%';
-        fill.style.right = 100-offsetX + '%';
+        let tmpNum = offsetX/100 - (1/n/2);
+        let sel;
+        if (tmpNum < 0) {
+            adjOffsetX = 0;
+            sel = 0;
+        } else {
+            sel = Math.floor(tmpNum/(1/n)) + 1;
+            adjOffsetX = sel * (1/n) * 100;
+        }
+
+        origin.style.left = adjOffsetX + '%';
+        fill.style.right = 100-adjOffsetX + '%';
+        output.innerText = sel;
+
     }
 
     thumb.addEventListener('mousedown', handleMouseDown, true);
@@ -73,10 +88,15 @@ const ids = {
     originId: 'slider-origin',
     thumbId: 'slider-thumb',
     fillId: 'slider-fill',
+    outputId: 'slider-output',
 }
 
-enableSlider(ids);
+const inputAttr = {
+    min: 0,
+    max: 15,
+}
 
+useSlider(ids, inputAttr);
 
 /*
 
